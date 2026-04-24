@@ -1,49 +1,43 @@
-import { useEffect, useState } from "react";
+import DataTable from "../components/DataTable";
 import { useNavigate } from "react-router-dom";
-import { getPacientes } from "../api/pacientesApi";
+import { getPacientesGrid } from "../api/pacientesApi";
+import type { PacienteDTO } from "../models/dto/PacienteDTO";
 
 export default function PacientesPage() {
 
-    const [pacientes, setPacientes] = useState<any[]>([]);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        load();
-    }, []);
-
-    const load = async () => {
-        const res = await getPacientes();
-        if (res.success) setPacientes(res.data);
-    };
 
     return (
         <div className="container-fluid">
-            <h4>Pacientes</h4>
 
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th></th>
-                    </tr>
-                </thead>
+            <h4 className="mb-3">Pacientes</h4>
 
-                <tbody>
-                    {pacientes.map(p => (
-                        <tr key={p.id}>
-                            <td>{p.nombres} {p.apellidos}</td>
-                            <td>
-                                <button
-                                    className="btn btn-primary btn-sm"
-                                    onClick={() => navigate(`/doctor/pacientes/${p.id}`)}
-                                >
-                                    Ver
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <DataTable<PacienteDTO>
+
+                fetchData={async (params) => {
+                    const json = await getPacientesGrid(params);
+
+                    return {
+                        data: json.data,
+                        total: json.total
+                    };
+                }}
+
+                columns={[
+                    { key: "nombre_completo", label: "Paciente", sortable: true },
+                    { key: "email", label: "Correo", sortable: true },
+                    { key: "telefono", label: "Teléfono" }
+                ]}
+
+                actions={[
+                    {
+                        label: "Ver",
+                        className: "btn btn-primary btn-sm",
+                        onClick: (p) => navigate(`/doctor/pacientes/${p.id}`)
+                    }
+                ]}
+            />
+
         </div>
     );
 }

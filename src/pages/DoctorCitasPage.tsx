@@ -21,7 +21,7 @@ export default function DoctorCitasPage() {
 
             <DataTable<CitaDoctorDTO>
 
-                // 🔥 BACKEND GRID
+                // BACKEND GRID
                 fetchData={async (params) => {
 
                     const json = await getCitasDoctorGrid(params);
@@ -32,7 +32,7 @@ export default function DoctorCitasPage() {
                     };
                 }}
 
-                // 📊 COLUMNAS GENERICAS
+                // COLUMNAS GENERICAS
                 columns={[
                     { key: "paciente_nombre", label: "Paciente", sortable: true },
                     { key: "fecha", label: "Fecha", type: "date", sortable: true },
@@ -40,7 +40,7 @@ export default function DoctorCitasPage() {
                     { key: "estado", label: "Estado", type: "badge", sortable: true }
                 ]}
 
-                // 🎛️ FILTROS GENERICOS
+                // FILTROS GENERICOS
                 filters={[
                     {
                         type: "select",
@@ -58,7 +58,7 @@ export default function DoctorCitasPage() {
                     }
                 ]}
 
-                // ⚙️ ACCIONES
+                // ACCIONES
                 actions={[
                     {
                         label: (c) => c.estado === "pendiente" ? "Atender" : "Editar",
