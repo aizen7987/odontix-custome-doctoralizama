@@ -54,3 +54,10 @@ export const activarCita = async (id: number) => {
     const res = await axiosInstance.put(`/citas/${id}/activar`);
     return res.data;
 };
+
+export const getCitasDoctorGrid = async (params: any) => {
+    const res = await axiosInstance.get("/citas/doctor/grid", {
+        params
+    });
+    return res.data;
+};
